@@ -16,6 +16,7 @@ __pycache__/
 
 # uv
 uv.lock
+.uv-cache/
 
 # IDE
 .vscode/
@@ -31,3 +32,4 @@ Thumbs.db
 # Documentation build artifacts
 *.log
 .mkdocs_cache/
+.generated/

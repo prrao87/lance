@@ -1,19 +1,106 @@
-/* Lance Homepage Styles */
+/* Lance homepage styles for Zensical */
 
-/* Override with custom color #625EFF site-wide */
-:root > * {
-  --md-primary-fg-color: #625EFF;
-  --md-primary-fg-color--light: #8481FF;
-  --md-primary-fg-color--dark: #4A46CC;
-  --md-accent-fg-color: #625EFF;
-  --md-accent-fg-color--transparent: rgba(98, 94, 255, 0.1);
+:root {
+  --lance-primary: #625eff;
+  --lance-primary-light: #8481ff;
+  --lance-primary-dark: #4a46cc;
+  --lance-surface: #ffffff;
+  --lance-muted-surface: rgba(128, 128, 128, 0.03);
+  --lance-border: rgba(128, 128, 128, 0.12);
+  --lance-text: #1f2430;
+  --lance-text-muted: #4d5260;
+  --lance-hero-text: #f8f8f8;
+  --md-primary-fg-color: #625eff;
+  --md-primary-fg-color--light: #8481ff;
+  --md-primary-fg-color--dark: #4a46cc;
+  --md-accent-fg-color: #625eff;
 }
 
-* {
+:root {
+  /* Keep header in dark-style Lance purple by default */
+  --lance-banner-start: #5852e6;
+  --lance-banner-mid: #625eff;
+  --lance-banner-end: #7069ff;
+}
+
+/* Header stays consistent across light/dark page schemes */
+[data-md-color-scheme="default"],
+[data-md-color-scheme="slate"] {
+  --lance-banner-start: #5852e6;
+  --lance-banner-mid: #625eff;
+  --lance-banner-end: #7069ff;
+}
+
+.md-header,
+.md-tabs {
+  background: linear-gradient(
+    90deg,
+    var(--lance-banner-start) 0%,
+    var(--lance-banner-mid) 48%,
+    var(--lance-banner-end) 100%
+  ) !important;
+}
+
+.md-tabs {
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.md-header__title,
+.md-header__button,
+.md-source,
+.md-source__repository,
+.md-source__fact,
+.md-source__icon {
+  color: #ffffff !important;
+}
+
+.md-tabs__link {
+  color: rgba(255, 255, 255, 0.82) !important;
+}
+
+.md-tabs__link:hover,
+.md-tabs__link--active {
+  color: #ffffff !important;
+}
+
+.md-search__form {
+  background-color: rgba(46, 40, 148, 0.45) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.md-search__input,
+.md-search__icon,
+.md-search__icon svg {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+
+[data-md-color-scheme="slate"] {
+  --lance-surface: #0f1320;
+  --lance-muted-surface: rgba(255, 255, 255, 0.03);
+  --lance-border: rgba(255, 255, 255, 0.1);
+  --lance-text: #e6e8ee;
+  --lance-text-muted: #c3c7d2;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.lance-home {
+  color: var(--lance-text);
+}
+
+/* Pull homepage content up to remove framework spacing under the top banner */
+.md-content__inner > .lance-home {
+  margin-top: -4.5rem;
+}
+
+.lance-home * {
   box-sizing: border-box;
 }
 
-.container {
+.lance-home .container {
   width: 100%;
   max-width: 1140px;
   margin-right: auto;
@@ -22,20 +109,35 @@
   padding-left: 15px;
 }
 
-/* Hero Section - Fullscreen with Background Image */
-.mdx-container {
+.lance-home .mdx-container {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
   text-align: center;
-  color: #f8f8f8;
+  color: var(--lance-hero-text);
   background: url("../images/lance-mj.png") no-repeat center center;
   background-size: cover;
   min-height: 100vh;
-  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.intro-message {
+.lance-home .mdx-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(98, 94, 255, 0.5) 0%,
+    rgba(98, 94, 255, 0.24) 20%,
+    rgba(98, 94, 255, 0.08) 38%,
+    rgba(98, 94, 255, 0) 58%
+  );
+}
+
+.lance-home .intro-message {
   position: relative;
   padding: 40px 20px;
   font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
@@ -43,13 +145,13 @@
   margin: 0 auto;
 }
 
-.hero-logo {
+.lance-home .hero-logo {
   display: inline-flex;
   align-items: center;
   margin-bottom: 16px;
 }
 
-.hero-logo img {
+.lance-home .hero-logo img {
   height: 120px;
   width: auto;
   margin-right: 24px;
@@ -57,31 +159,30 @@
   filter: drop-shadow(3px 3px 8px rgba(0, 0, 0, 0.9));
 }
 
-.intro-message h1 {
-  font-weight: 400;
+.lance-home .intro-message h1 {
   margin: 0;
   display: inline-block;
-  text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.9), 1px 1px 3px rgba(0, 0, 0, 1);
   font-size: 8em;
   line-height: 1.2;
+  font-weight: 400;
   color: #ffffff;
   vertical-align: middle;
+  text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.9), 1px 1px 3px rgba(0, 0, 0, 1);
 }
 
-.intro-message h1 sup {
+.lance-home .intro-message h1 sup {
   font-size: 2rem;
-  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
 }
 
-.intro-message h3 {
-  font-size: 1.1rem;
-  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9), 1px 1px 3px rgba(0, 0, 0, 1);
-  font-weight: 600;
+.lance-home .intro-message h3 {
   margin-bottom: 32px;
+  font-size: 1.1rem;
+  font-weight: 600;
   color: #ffffff;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9), 1px 1px 3px rgba(0, 0, 0, 1);
 }
 
-.intro-divider {
+.lance-home .intro-divider {
   width: 400px;
   max-width: 80%;
   border-top: 1px solid rgba(255, 255, 255, 0.8);
@@ -89,46 +190,87 @@
   margin: 24px auto;
 }
 
-.list-inline {
+.lance-home .list-inline {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 8px;
   padding-left: 0;
-  margin-left: -5px;
+  margin: 0;
   list-style: none;
-  margin-bottom: 0;
 }
 
-.list-inline li {
+.lance-home .list-inline li {
+  display: inline-flex !important;
+  width: auto !important;
+  margin-bottom: 0 !important;
+  padding: 0;
+}
+
+.lance-btn {
   display: inline-block;
-  padding-right: 5px;
-  padding-left: 5px;
-}
-
-.intro-message .md-button {
   margin: 8px;
   padding: 14px 36px;
-  font-size: 1.1rem;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  font-size: 1rem;
   font-weight: 600;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-  transition: all 0.3s ease;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.95);
+  transition: all 0.25s ease;
 }
 
-.intro-message .md-button:hover {
+.lance-home .intro-message .lance-btn {
+  margin: 0;
+  padding: 12px 18px;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.lance-home a.lance-btn,
+.lance-home a.lance-btn:link,
+.lance-home a.lance-btn:visited,
+.lance-home a.lance-btn:hover,
+.lance-home a.lance-btn:active {
+  color: #ffffff !important;
+  text-decoration: none !important;
+}
+
+.lance-btn:hover {
   transform: translateY(-2px);
+  border-color: transparent;
+  background: transparent;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
-.intro-message .md-button--primary:hover {
-  box-shadow: 0 8px 20px rgba(98, 94, 255, 0.5);
+.lance-btn--primary {
+  border-color: transparent;
+  background: transparent;
 }
 
-.intro-message .md-button:not(.md-button--primary):hover {
-  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.4);
+.lance-btn--primary:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  background: transparent;
 }
 
-/* What is Lance Section */
+.lance-home a.lance-btn:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.9);
+  outline-offset: 2px;
+}
+
+.lance-intro-section,
+.lance-feature-section {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  background: var(--lance-surface);
+}
+
 .lance-intro-section {
   padding: 80px 0;
-  background-color: rgba(128, 128, 128, 0.03);
-  border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+  border-bottom: 1px solid var(--lance-border);
+  background: var(--lance-muted-surface);
 }
 
 .lance-intro-content {
@@ -138,53 +280,52 @@
 }
 
 .lance-intro-content h2 {
+  margin-bottom: 32px;
+  color: var(--lance-primary);
   font-size: 36px;
   font-weight: 500;
-  margin-bottom: 32px;
-  color: var(--md-primary-fg-color);
 }
 
 .lance-intro-content p {
+  margin-bottom: 28px;
+  color: #5a6173;
   font-size: 16px;
   line-height: 1.8;
-  margin-bottom: 32px;
-  opacity: 0.9;
   text-align: left;
 }
 
+[data-md-color-scheme="slate"] .lance-intro-content p,
+[data-md-color-scheme="slate"] .lance-feature-text p {
+  color: var(--md-default-fg-color);
+}
+
 .lance-paper-link {
-  color: var(--md-primary-fg-color);
+  color: var(--lance-primary);
   text-decoration: none;
 }
 
 .lance-paper-link:hover {
-  color: var(--md-primary-fg-color);
-  text-decoration: none;
+  color: var(--lance-primary-light);
 }
 
-.lance-intro-content a:hover {
-  color: #757575;
-  text-decoration: none;
-}
-
-.lance-intro-content .md-button {
+.lance-intro-content .lance-btn {
   margin-top: 16px;
-  padding: 10px 28px;
-  font-size: 14px;
-  border: 2px solid currentColor;
-  background-color: transparent;
-  transition: all 0.3s ease;
 }
 
-.lance-intro-content .md-button:hover {
-  color: var(--md-primary-fg-color);
-  background-color: transparent;
+.lance-intro-content .lance-btn--primary {
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  background: rgba(3, 8, 24, 0.35);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
 }
 
-/* Feature Sections */
+.lance-intro-content .lance-btn--primary:hover {
+  border-color: #ffffff;
+  background: rgba(3, 8, 24, 0.5);
+}
+
 .lance-feature-section {
   padding: 80px 0;
-  border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+  border-bottom: 1px solid var(--lance-border);
 }
 
 .lance-feature-section:last-child {
@@ -204,28 +345,31 @@
 }
 
 .lance-feature-text h2 {
+  margin-bottom: 16px;
+  color: var(--lance-primary);
   font-size: 30px;
   font-weight: 500;
-  margin-bottom: 16px;
-  color: var(--md-primary-fg-color);
 }
 
 .lance-feature-text p {
+  margin-bottom: 16px;
+  color: var(--lance-text-muted);
   font-size: 15px;
   line-height: 1.6;
-  opacity: 0.85;
-  margin-bottom: 16px;
 }
 
-.lance-feature-text .md-button {
-  font-size: 0.6rem;
-  padding: 0;
-  transition: all 0.3s ease;
+.lance-link-btn {
+  display: inline-block;
+  margin-top: 4px;
+  color: var(--lance-primary-dark);
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.2s ease;
 }
 
-.lance-feature-text .md-button:hover {
+.lance-link-btn:hover {
   transform: translateX(4px);
-  color: var(--md-primary-fg-color);
+  color: var(--lance-primary);
 }
 
 .lance-feature-demo {
@@ -233,49 +377,71 @@
   min-width: 400px;
   display: flex;
   justify-content: center;
-  overflow: hidden;
 }
 
-/* Alternating layout */
+.lance-feature-demo img {
+  max-width: 500px;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
 .lance-feature-section.reverse .lance-feature-content {
   flex-direction: row-reverse;
 }
 
-/* Terminal container adjustments */
-[data-termynal] {
-  margin: 0 auto;
-  width: 500px;
-  max-width: 100%;
-  font-size: 14px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+@media (max-width: 960px) {
+  .lance-home .intro-message h1 {
+    font-size: 4rem;
+  }
 }
 
-/* Responsive Design */
+@media (max-width: 1200px) {
+  .lance-home .intro-message .lance-btn {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .lance-home .list-inline {
+    flex-direction: column !important;
+    gap: 12px;
+  }
+
+  .lance-home .list-inline li {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .lance-home .intro-message .lance-btn {
+    display: block;
+    width: 90%;
+    max-width: 320px;
+    margin: 0 auto;
+    text-align: center;
+  }
+}
+
 @media (max-width: 768px) {
-  .container {
+  .md-content__inner > .lance-home {
+    margin-top: -3.8rem;
+  }
+
+  .lance-home .container {
     padding-right: 10px;
     padding-left: 10px;
   }
 
-  .mdx-hero__content h1 {
-    font-size: 2.2rem;
-  }
-
-  .mdx-hero__content p {
-    font-size: 1.1rem;
-  }
-
+  .lance-intro-section,
   .lance-feature-section {
     padding: 50px 0;
   }
 
-  .lance-feature-content {
-    flex-direction: column;
-    gap: 40px;
-  }
-
+  .lance-feature-content,
   .lance-feature-section.reverse .lance-feature-content {
     flex-direction: column;
+    gap: 40px;
   }
 
   .lance-feature-text h2 {
@@ -289,41 +455,19 @@
   .lance-feature-demo {
     min-width: 100%;
   }
-
-  [data-termynal] {
-    width: 100% !important;
-    max-width: 100% !important;
-    font-size: 12px;
-    padding: 50px 25px 25px;
-  }
-}
-
-@media (max-width: 960px) {
-  .intro-message .list-inline li {
-    display: block;
-    padding: 0;
-    margin-bottom: 12px;
-  }
-
-  .intro-message .md-button {
-    display: block;
-    margin: 0 auto;
-    width: 90%;
-    max-width: 350px;
-  }
 }
 
 @media (max-width: 480px) {
-  .intro-message h1 {
-    font-size: 1.8rem;
+  .lance-home .hero-logo img {
+    height: 84px;
+    margin-right: 14px;
   }
 
-  .intro-message .md-button {
+  .lance-home .intro-message h1 {
+    font-size: 2.7rem;
+  }
+
+  .lance-btn {
     max-width: 300px;
-  }
-
-  [data-termynal] {
-    font-size: 10px;
-    padding: 40px 15px 15px;
   }
 }

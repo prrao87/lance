@@ -2,18 +2,18 @@
 
 ### Main website
 
-The main documentation website is built using [mkdocs-material](https://squidfunk.github.io/mkdocs-material/).
+The main documentation website is built using [Zensical](https://zensical.org/).
 To build the docs, first install requirements:
 
 ```bash
 cd docs
-uc sync --dev
+uv sync --all-extras
 ```
 
 Then build and start the docs server:
 
 ```bash
-uv run mkdocs serve
+make serve
 ```
 
 ### Python Generated Doc
