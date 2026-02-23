@@ -3,20 +3,13 @@ name = "lance-docs"
 version = "0.1.0"
 description = "Documentation for Lance - Modern columnar data format for ML and LLMs"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
-    "mkdocs>=1.5.0",
-    "mkdocs-material>=9.4.0",
-    "mkdocs-protobuf>=0.1.0",
-    "mkdocs-linkcheck>=1.0.0",
-    "mkdocs-awesome-pages-plugin>=2.10.1"
+    "zensical>=0.0.23,<0.1.0",
 ]
 
-[tool.uv]
-dev-dependencies = [
-    "mike>=2.0.0",  # For versioned documentation
-    "mkdocs-minify-plugin>=0.7.0",  # Minify HTML output
-    "mkdocs-git-revision-date-localized-plugin>=1.2.0",  # Add git revision date
+[dependency-groups]
+dev = [
     "ruff>=0.4.0",  # For linting markdown code blocks
 ]
 
