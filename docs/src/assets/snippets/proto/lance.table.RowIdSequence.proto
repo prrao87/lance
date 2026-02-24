@@ -1,0 +1,3 @@
+message RowIdSequence {
+    repeated U64Segment segments = 1;
+}

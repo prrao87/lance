@@ -20,7 +20,7 @@ the in-memory index is up to date after the fragment reuse application process.
 ## Index Details
 
 ```protobuf
-%%% proto.message.FragmentReuseIndexDetails %%%
+--8<-- "assets/snippets/proto/lance.table.FragmentReuseIndexDetails.proto"
 ```
 
 ## Expected Use Pattern

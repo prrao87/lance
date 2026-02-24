@@ -6,7 +6,7 @@ It's designed for high-performance text search with support for various scoring 
 ## Index Details
 
 ```protobuf
-%%% proto.message.InvertedIndexDetails %%%
+--8<-- "assets/snippets/proto/lance.table.InvertedIndexDetails.proto"
 ```
 
 ## Storage Layout

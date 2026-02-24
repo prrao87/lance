@@ -145,7 +145,7 @@ The `params` object contains the following HNSW construction parameters:
 For efficiency, Lance serializes IVF metadata to protobuf format and stores it in the Lance file global buffer:
 
 ```protobuf
-%%% proto.message.IVF %%%
+--8<-- "assets/snippets/proto/lance.index.pb.IVF.proto"
 ```
 
 ### Auxiliary File
@@ -258,7 +258,7 @@ For product quantization, the codebook is stored in `Tensor` format
 in the auxiliary file's global buffer for efficient access:
 
 ```protobuf
-%%% proto.message.Tensor %%%
+--8<-- "assets/snippets/proto/lance.index.pb.Tensor.proto"
 ```
 
 ##### Rotation Matrix
@@ -268,7 +268,7 @@ in the auxiliary file's global buffer. The rotation matrix is an orthogonal matr
 to rotate vectors before binary quantization:
 
 ```protobuf
-%%% proto.message.Tensor %%%
+--8<-- "assets/snippets/proto/lance.index.pb.Tensor.proto"
 ```
 
 The rotation matrix has shape `[code_dim, code_dim]` where `code_dim = dimension * num_bits`.

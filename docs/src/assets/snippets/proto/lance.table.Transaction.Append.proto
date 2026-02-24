@@ -1,0 +1,6 @@
+message Append {
+    // The new fragments to append.
+    //
+    // Fragment IDs are not yet assigned.
+    repeated DataFragment fragments = 1;
+  }

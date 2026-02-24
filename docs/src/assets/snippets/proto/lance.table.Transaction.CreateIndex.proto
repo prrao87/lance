@@ -1,0 +1,4 @@
+message CreateIndex {
+    repeated IndexMetadata new_indices = 1;
+    repeated IndexMetadata removed_indices = 2;
+  }

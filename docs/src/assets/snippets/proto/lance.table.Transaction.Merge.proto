@@ -1,0 +1,10 @@
+message Merge {
+    // The updated fragments
+    //
+    // These should all have existing fragment IDs.
+    repeated DataFragment fragments = 1;
+    // The new schema
+    repeated lance.file.Field schema = 2;
+    // Schema metadata.
+    map<string, bytes> schema_metadata = 3;
+  }

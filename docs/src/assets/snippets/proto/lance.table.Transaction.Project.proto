@@ -1,0 +1,4 @@
+message Project {
+    // The new schema
+    repeated lance.file.Field schema = 1;
+  }

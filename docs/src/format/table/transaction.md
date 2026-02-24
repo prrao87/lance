@@ -61,7 +61,7 @@ Fragment IDs are not assigned at transaction creation time; they are assigned du
 <summary>Append protobuf message</summary>
 
 ```protobuf
-%%% proto.message.Append %%%
+--8<-- "assets/snippets/proto/lance.table.Transaction.Append.proto"
 ```
 
 </details>
@@ -76,7 +76,7 @@ The `predicate` field stores the deletion condition, enabling conflict detection
 <summary>Delete protobuf message</summary>
 
 ```protobuf
-%%% proto.message.Delete %%%
+--8<-- "assets/snippets/proto/lance.table.Transaction.Delete.proto"
 ```
 
 </details>
@@ -89,7 +89,7 @@ Creates or completely overwrites the table with new data, schema, and configurat
 <summary>Overwrite protobuf message</summary>
 
 ```protobuf
-%%% proto.message.Overwrite %%%
+--8<-- "assets/snippets/proto/lance.table.Transaction.Overwrite.proto"
 ```
 
 </details>
@@ -102,7 +102,7 @@ Adds, replaces, or removes secondary indices (vector indices, scalar indices, fu
 <summary>CreateIndex protobuf message</summary>
 
 ```protobuf
-%%% proto.message.CreateIndex %%%
+--8<-- "assets/snippets/proto/lance.table.Transaction.CreateIndex.proto"
 ```
 
 </details>
@@ -118,7 +118,7 @@ New fragment IDs must be reserved via `ReserveFragments` before executing a `Rew
 <summary>Rewrite protobuf message</summary>
 
 ```protobuf
-%%% proto.message.Rewrite %%%
+--8<-- "assets/snippets/proto/lance.table.Transaction.Rewrite.proto"
 ```
 
 </details>
@@ -132,7 +132,7 @@ All fragments must be updated to include the new columns.
 <summary>Merge protobuf message</summary>
 
 ```protobuf
-%%% proto.message.Merge %%%
+--8<-- "assets/snippets/proto/lance.table.Transaction.Merge.proto"
 ```
 
 </details>
@@ -146,7 +146,7 @@ This is a metadata-only operation; data files are not modified.
 <summary>Project protobuf message</summary>
 
 ```protobuf
-%%% proto.message.Project %%%
+--8<-- "assets/snippets/proto/lance.table.Transaction.Project.proto"
 ```
 
 </details>
@@ -159,7 +159,7 @@ Reverts the table to a previous version.
 <summary>Restore protobuf message</summary>
 
 ```protobuf
-%%% proto.message.Restore %%%
+--8<-- "assets/snippets/proto/lance.table.Transaction.Restore.proto"
 ```
 
 </details>
@@ -173,7 +173,7 @@ This allows rewrite operations to reference fragment IDs before the rewrite tran
 <summary>ReserveFragments protobuf message</summary>
 
 ```protobuf
-%%% proto.message.ReserveFragments %%%
+--8<-- "assets/snippets/proto/lance.table.Transaction.ReserveFragments.proto"
 ```
 
 </details>
@@ -188,7 +188,7 @@ Deep clones are full copies using object storage native copy operations (e.g., S
 <summary>Clone protobuf message</summary>
 
 ```protobuf
-%%% proto.message.Clone %%%
+--8<-- "assets/snippets/proto/lance.table.Transaction.Clone.proto"
 ```
 
 </details>
@@ -202,7 +202,7 @@ Supports two execution modes: REWRITE_ROWS deletes rows in current fragments and
 <summary>Update protobuf message</summary>
 
 ```protobuf
-%%% proto.message.Update %%%
+--8<-- "assets/snippets/proto/lance.table.Transaction.Update.proto"
 ```
 
 </details>
@@ -215,7 +215,7 @@ Modifies table configuration, table metadata, schema metadata, or field metadata
 <summary>UpdateConfig protobuf message</summary>
 
 ```protobuf
-%%% proto.message.UpdateConfig %%%
+--8<-- "assets/snippets/proto/lance.table.Transaction.UpdateConfig.proto"
 ```
 
 </details>
@@ -228,7 +228,7 @@ Replaces data in specific column regions with new data files.
 <summary>DataReplacement protobuf message</summary>
 
 ```protobuf
-%%% proto.message.DataReplacement %%%
+--8<-- "assets/snippets/proto/lance.table.Transaction.DataReplacement.proto"
 ```
 
 </details>
@@ -241,7 +241,7 @@ Updates the state of MemWal indices (write-ahead log based indices).
 <summary>UpdateMemWalState protobuf message</summary>
 
 ```protobuf
-%%% proto.message.UpdateMemWalState %%%
+--8<-- "assets/snippets/proto/lance.table.Transaction.UpdateMemWalState.proto"
 ```
 
 </details>
@@ -254,7 +254,7 @@ Adds new base paths to the table, enabling reference to data files in additional
 <summary>UpdateBases protobuf message</summary>
 
 ```protobuf
-%%% proto.message.UpdateBases %%%
+--8<-- "assets/snippets/proto/lance.table.Transaction.UpdateBases.proto"
 ```
 
 </details>

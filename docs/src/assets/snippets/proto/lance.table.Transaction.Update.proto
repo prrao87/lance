@@ -1,0 +1,21 @@
+message Update {
+    // The fragments that have been removed. These are fragments where all rows
+    // have been updated and moved to a new fragment.
+    repeated uint64 removed_fragment_ids = 1;
+    // The fragments that have been updated.
+    repeated DataFragment updated_fragments = 2;
+    // The new fragments where updated rows have been moved to.
+    repeated DataFragment new_fragments = 3;
+    // The ids of the fields that have been modified.
+    repeated uint32 fields_modified = 4;
+    /// List of MemWAL region generations to mark as merged after this transaction
+    repeated MergedGeneration merged_generations = 5;
+    /// The fields that used to judge whether to preserve the new frag's id into
+    /// the frag bitmap of the specified indices.
+    repeated uint32 fields_for_preserving_frag_bitmap = 6;
+    // The mode of update
+    UpdateMode update_mode = 7;
+    // Filter for checking existence of keys in newly inserted rows, used for conflict detection.
+    // Only tracks keys from INSERT operations during merge insert, not updates.
+    optional KeyExistenceFilter inserted_rows = 8;
+  }

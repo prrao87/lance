@@ -1,0 +1,52 @@
+message IndexMetadata {
+  // Unique ID of an index. It is unique across all the dataset versions.
+  UUID uuid = 1;
+
+  // The columns to build the index. These refer to file.Field.id.
+  repeated int32 fields = 2;
+
+  // Index name. Must be unique within one dataset version.
+  string name = 3;
+
+  // The version of the dataset this index was built from.
+  uint64 dataset_version = 4;
+
+  // A bitmap of the included fragment ids.
+  //
+  // This may by used to determine how much of the dataset is covered by the
+  // index. This information can be retrieved from the dataset by looking at
+  // the dataset at `dataset_version`. However, since the old version may be
+  // deleted while the index is still in use, this information is also stored
+  // in the index.
+  //
+  // The bitmap is stored as a 32-bit Roaring bitmap.
+  bytes fragment_bitmap = 5;
+
+  // Details, specific to the index type, which are needed to load / interpret the index
+  //
+  // Indices should avoid putting large amounts of information in this field, as it will
+  // bloat the manifest.
+  //
+  // Indexes are plugins, and so the format of the details message is flexible and not fully
+  // defined by the table format.  However, there are some conventions that should be followed:
+  //
+  // - When Lance APIs refer to indexes they will use the type URL of the index details as the
+  //   identifier for the index type.  If a user provides a simple string identifier like
+  //   "btree" then it will be converted to "/lance.table.BTreeIndexDetails"
+  // - Type URLs comparisons are case-insensitive.  Thereform an index must have a unique type
+  //   URL ignoring case.
+  google.protobuf.Any index_details = 6;
+
+  // The minimum lance version that this index is compatible with.
+  optional int32 index_version = 7;
+
+  // Timestamp when the index was created (UTC timestamp in milliseconds since epoch)
+  //
+  // This field is optional for backward compatibility. For existing indices created before
+  // this field was added, this will be None/null.
+  optional uint64 created_at = 8;
+
+  // The base path index of the data file. Used when the file is imported or referred from another dataset.
+  // Lance use it as key of the base_paths field in Manifest to determine the actual base path of the data file.
+  optional uint32 base_id = 9;
+}

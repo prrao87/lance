@@ -56,7 +56,7 @@ Hilbert sorting is performed in three steps:
 ## Index Details
 
 ```protobuf
-%%% proto.message.RTreeIndexDetails %%%
+--8<-- "assets/snippets/proto/lance.index.pb.RTreeIndexDetails.proto"
 ```
 
 ## Storage Layout

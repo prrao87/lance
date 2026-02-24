@@ -1,0 +1,13 @@
+message Delete {
+    // The fragments to update
+    //
+    // The fragment IDs will match existing fragments in the dataset.
+    repeated DataFragment updated_fragments = 1;
+    // The fragments to delete entirely.
+    repeated uint64 deleted_fragment_ids = 2;
+    // The predicate that was evaluated
+    //
+    // This may be used to determine whether the delete would have affected 
+    // files written by a concurrent transaction.
+    string predicate = 3;
+  }

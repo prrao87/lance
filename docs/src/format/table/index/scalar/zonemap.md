@@ -11,7 +11,7 @@ false positives that require rechecking.
 ## Index Details
 
 ```protobuf
-%%% proto.message.ZoneMapIndexDetails %%%
+--8<-- "assets/snippets/proto/lance.table.ZoneMapIndexDetails.proto"
 ```
 
 ## Storage Layout

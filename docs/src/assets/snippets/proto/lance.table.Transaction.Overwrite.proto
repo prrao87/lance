@@ -1,0 +1,14 @@
+message Overwrite {
+    // The new fragments
+    //
+    // Fragment IDs are not yet assigned.
+    repeated DataFragment fragments = 1;
+    // The new schema
+    repeated lance.file.Field schema = 2;
+    // Schema metadata.
+    map<string, bytes> schema_metadata = 3;
+    // Key-value pairs to merge with existing config.
+    map<string, string> config_upsert_values = 4;
+    // The base paths to be added for the initial dataset creation
+    repeated BasePath initial_bases = 5;
+  }

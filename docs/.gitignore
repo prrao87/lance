@@ -32,4 +32,3 @@ Thumbs.db
 # Documentation build artifacts
 *.log
 .mkdocs_cache/
-.generated/

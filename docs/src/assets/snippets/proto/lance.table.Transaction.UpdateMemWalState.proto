@@ -1,0 +1,4 @@
+message UpdateMemWalState {
+    // Regions and generations being marked as merged.
+    repeated MergedGeneration merged_generations = 1;
+  }

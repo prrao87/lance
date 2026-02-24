@@ -1,0 +1,3 @@
+message ReserveFragments {
+    uint32 num_fragments = 1;
+  }

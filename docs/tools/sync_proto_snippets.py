@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Render `%%% proto.message.X %%%` macros into static protobuf code blocks."""
+"""Sync protobuf snippets and macro references in docs markdown.
+
+This script does two things:
+1. Replaces `%%% alias.message.Name %%%` placeholders with snippet includes.
+2. Writes snippet files under `src/assets/snippets/proto/` from `../protos/*.proto`.
+"""
 
 from __future__ import annotations
 
@@ -14,16 +19,13 @@ TOKEN_RE = re.compile(
     r"//[^\n]*|/\*.*?\*/|\"(?:\\.|[^\"\\])*\"|\bmessage\s+([A-Za-z_][A-Za-z0-9_]*)\s*\{|[{}]",
     re.DOTALL,
 )
-FENCE_OPEN_RE = re.compile(r"^(\s*)```([^\s`]*)\s*$")
-FENCE_CLOSE_RE = re.compile(r"^\s*```\s*$")
 
 
-@dataclass
+@dataclass(frozen=True)
 class MessageDef:
     full_name: str
     short_name: str
     snippet: str
-    source: Path
 
 
 def parse_proto_messages(proto_file: Path) -> list[MessageDef]:
@@ -70,9 +72,8 @@ def parse_proto_messages(proto_file: Path) -> list[MessageDef]:
                 messages.append(
                     MessageDef(
                         full_name=full_name,
-                        short_name=scope["name"],
+                        short_name=str(scope["name"]),
                         snippet=snippet,
-                        source=proto_file,
                     )
                 )
             depth = max(0, depth - 1)
@@ -127,93 +128,90 @@ def resolve_macro(macro: str, messages: list[MessageDef]) -> MessageDef | None:
     return candidates[0][1]
 
 
-def render_markdown(markdown: str, messages: list[MessageDef]) -> tuple[str, list[str]]:
-    unresolved: list[str] = []
-    output_lines: list[str] = []
-    fence_lang: str | None = None
+def rewrite_markdown_markers(docs_dir: Path, messages: list[MessageDef]) -> tuple[int, set[MessageDef]]:
+    rewritten_files = 0
+    unresolved: list[tuple[Path, str]] = []
+    used_messages: set[MessageDef] = set()
 
-    for line in markdown.splitlines(keepends=True):
-        open_match = FENCE_OPEN_RE.match(line.rstrip("\n"))
-        if fence_lang is None and open_match:
-            fence_lang = open_match.group(2).strip().lower()
-            output_lines.append(line)
-            continue
-        if fence_lang is not None and FENCE_CLOSE_RE.match(line.rstrip("\n")):
-            fence_lang = None
-            output_lines.append(line)
-            continue
-
-        macro_match = MACRO_RE.search(line)
-        if not macro_match:
-            output_lines.append(line)
-            continue
-
-        macro = macro_match.group(1)
-        resolved = resolve_macro(macro, messages)
-        if not resolved:
-            unresolved.append(macro)
-            output_lines.append(line)
-            continue
-
-        indent = line[: len(line) - len(line.lstrip(" \t"))]
-        if fence_lang and fence_lang.startswith("protobuf"):
-            body = resolved.snippet.splitlines()
-            output_lines.extend(f"{indent}{snippet_line}\n" for snippet_line in body)
-        else:
-            output_lines.append(f"{indent}```protobuf\n")
-            output_lines.extend(f"{indent}{snippet_line}\n" for snippet_line in resolved.snippet.splitlines())
-            output_lines.append(f"{indent}```\n")
-
-    return "".join(output_lines), unresolved
-
-
-def transform_docs(input_dir: Path, output_dir: Path | None, proto_dir: Path) -> int:
-    if output_dir is None:
-        work_dir = input_dir
-    else:
-        output_dir.parent.mkdir(parents=True, exist_ok=True)
-        if output_dir.exists():
-            shutil.rmtree(output_dir)
-        shutil.copytree(input_dir, output_dir)
-        work_dir = output_dir
-
-    messages = load_messages(proto_dir)
-    unresolved_total: list[tuple[Path, str]] = []
-
-    for md_file in work_dir.rglob("*.md"):
+    for md_file in docs_dir.rglob("*.md"):
         original = md_file.read_text(encoding="utf-8")
-        updated, unresolved = render_markdown(original, messages)
-        if unresolved:
-            unresolved_total.extend((md_file, item) for item in unresolved)
-        if updated != original:
+        out_lines: list[str] = []
+        changed = False
+
+        for line in original.splitlines(keepends=True):
+            macro_match = MACRO_RE.search(line)
+            if not macro_match:
+                out_lines.append(line)
+                continue
+
+            macro = macro_match.group(1)
+            resolved = resolve_macro(macro, messages)
+            if resolved is None:
+                unresolved.append((md_file, macro))
+                out_lines.append(line)
+                continue
+
+            used_messages.add(resolved)
+            indent = line[: len(line) - len(line.lstrip(" \t"))]
+            newline = "\n" if line.endswith("\n") else ""
+            include = f'{indent}--8<-- "assets/snippets/proto/{resolved.full_name}.proto"{newline}'
+            out_lines.append(include)
+            changed = True
+
+        updated = "".join(out_lines)
+        if changed and updated != original:
             md_file.write_text(updated, encoding="utf-8")
+            rewritten_files += 1
 
-    if unresolved_total:
-        print("Found unresolved protobuf macros:")
-        for path, macro in unresolved_total:
-            print(f"  - {path}: {macro}")
-        return 1
+    if unresolved:
+        lines = [f"  - {path}: {macro}" for path, macro in unresolved]
+        raise RuntimeError("Unresolved protobuf macros:\n" + "\n".join(lines))
 
-    print(f"Rendered protobuf macros in {work_dir}")
-    return 0
+    return rewritten_files, used_messages
+
+
+def write_snippets(output_dir: Path, used_messages: set[MessageDef]) -> int:
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    for message in sorted(used_messages, key=lambda x: x.full_name):
+        path = output_dir / f"{message.full_name}.proto"
+        path.write_text(f"{message.snippet}\n", encoding="utf-8")
+
+    return len(used_messages)
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--input", required=True, type=Path, help="Input docs directory")
-    parser.add_argument("--output", type=Path, help="Optional output docs directory")
+    parser.add_argument(
+        "--docs-dir",
+        type=Path,
+        default=Path(__file__).resolve().parents[1] / "src",
+        help="Path to markdown docs root",
+    )
     parser.add_argument(
         "--proto-dir",
         type=Path,
         default=Path(__file__).resolve().parents[2] / "protos",
-        help="Directory containing proto files",
+        help="Path to proto files root",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path(__file__).resolve().parents[1] / "src/assets/snippets/proto",
+        help="Path to generated snippet directory",
     )
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    return transform_docs(args.input.resolve(), args.output.resolve() if args.output else None, args.proto_dir.resolve())
+    messages = load_messages(args.proto_dir.resolve())
+    rewritten_files, used_messages = rewrite_markdown_markers(args.docs_dir.resolve(), messages)
+    snippet_count = write_snippets(args.output_dir.resolve(), used_messages)
+    print(f"Updated {rewritten_files} markdown files and wrote {snippet_count} protobuf snippets.")
+    return 0
 
 
 if __name__ == "__main__":

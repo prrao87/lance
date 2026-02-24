@@ -1,0 +1,6 @@
+message Range {
+        /// The start of the range, inclusive.
+        uint64 start = 1;
+        /// The end of the range, exclusive.
+        uint64 end = 2;
+    }

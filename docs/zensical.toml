@@ -2,7 +2,7 @@
 site_name = "Lance"
 site_description = "Open Lakehouse Format for Multimodal AI"
 site_url = "https://lance.org/"
-docs_dir = ".generated/src"
+docs_dir = "src"
 site_dir = "site"
 repo_name = "lance-format/lance"
 repo_url = "https://github.com/lance-format/lance"
@@ -14,7 +14,7 @@ markdown_extensions = [
   "pymdownx.superfences",
   "pymdownx.highlight",
   "pymdownx.inlinehilite",
-  "pymdownx.snippets",
+  { "pymdownx.snippets" = { base_path = ["src"], check_paths = true } },
   "pymdownx.tabbed",
   "attr_list",
   "md_in_html",

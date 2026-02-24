@@ -1,0 +1,12 @@
+message RangeWithHoles {
+        /// The start of the range, inclusive.
+        uint64 start = 1;
+        /// The end of the range, exclusive.
+        uint64 end = 2;
+        /// The holes in the range, as a sorted array of values;
+        /// Binary search can be used to check whether a value is a hole and should
+        /// be skipped. This can also be used to count the number of holes before a
+        /// given value, if you need to find the logical offset of a value in the
+        /// segment.
+        EncodedU64Array holes = 3;
+    }

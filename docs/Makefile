@@ -1,11 +1,10 @@
-.PHONY: help check-uv prepare-generated serve build clean check-links sync
+.PHONY: help check-uv serve build clean check-links sync
 UV_CACHE_DIR ?= .uv-cache
 
 help:
 	@echo "Available commands:"
-	@echo "  make prepare-generated - Render protobuf macros into generated docs source"
-	@echo "  make serve        - Serve generated documentation locally with Zensical"
-	@echo "  make build        - Build generated documentation with Zensical"
+	@echo "  make serve        - Serve documentation locally with Zensical"
+	@echo "  make build        - Build documentation with Zensical"
 	@echo "  make clean        - Clean build artifacts"
 	@echo "  make check-links  - Run Zensical-only docs validation build"
 	@echo "  make sync         - Sync dependencies with pyproject.toml"
@@ -14,27 +13,23 @@ sync:
 	@$(MAKE) check-uv
 	UV_CACHE_DIR=$(UV_CACHE_DIR) uv sync --all-extras
 
-prepare-generated:
-	python3 tools/render_proto_macros.py --input src --output .generated/src
-
-serve: prepare-generated
+serve:
 	@$(MAKE) check-uv
-	UV_CACHE_DIR=$(UV_CACHE_DIR) uv run zensical serve -f zensical.toml -a localhost:8000
+	UV_CACHE_DIR=$(UV_CACHE_DIR) uv run zensical serve
 
-build: prepare-generated
+build:
 	@$(MAKE) check-uv
-	UV_CACHE_DIR=$(UV_CACHE_DIR) uv run zensical build --clean -f zensical.toml
+	UV_CACHE_DIR=$(UV_CACHE_DIR) uv run zensical build --clean
 
 clean:
 	rm -rf site/
 	rm -rf .cache/
-	rm -rf .generated/
 	find . -type d -name "__pycache__" -exec rm -rf {} +
 
-check-links: prepare-generated
+check-links:
 	@$(MAKE) check-uv
 	@echo "Zensical does not yet expose dedicated link validation; running strict build check."
-	UV_CACHE_DIR=$(UV_CACHE_DIR) uv run zensical build --clean -f zensical.toml --strict
+	UV_CACHE_DIR=$(UV_CACHE_DIR) uv run zensical build --clean --strict
 
 check-uv:
 	@command -v uv >/dev/null 2>&1 || { \

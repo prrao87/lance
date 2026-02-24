@@ -1,0 +1,4 @@
+message Restore {
+    // The version to restore to
+    uint64 version = 1;
+  }

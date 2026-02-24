@@ -1,0 +1,4 @@
+message UpdateBases {
+    // The new base paths to add to the manifest.
+    repeated BasePath new_bases = 1;
+  }

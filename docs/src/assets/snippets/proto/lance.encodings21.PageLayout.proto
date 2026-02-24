@@ -1,0 +1,13 @@
+message PageLayout {
+  oneof layout {
+    // A layout used for pages where the data is small
+    MiniBlockLayout mini_block_layout = 1;
+    // A layout used for pages where all (visible) values are the same scalar value or null.
+    ConstantLayout constant_layout = 2;
+    // A layout used for pages where the data is large
+    FullZipLayout full_zip_layout = 3;
+    // A layout where large binary data is encoded externally
+    // and only the descriptions are put in the page
+    BlobLayout blob_layout = 4;
+  }
+}
