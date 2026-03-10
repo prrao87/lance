@@ -1,7 +1,7 @@
 [project]
 site_name = "Lance"
 site_description = "Open Lakehouse Format for Multimodal AI"
-site_url = "https://lance.org/"
+site_url = "https://prrao87.github.io/lance/"
 docs_dir = "src"
 site_dir = "site"
 repo_name = "lance-format/lance"
