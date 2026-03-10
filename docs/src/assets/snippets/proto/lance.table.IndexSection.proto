@@ -1,0 +1,3 @@
+message IndexSection {
+  repeated IndexMetadata indices = 1;
+}

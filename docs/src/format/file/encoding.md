@@ -59,7 +59,7 @@ There are only a few structural encodings. The structural encoding is described 
 is the top-level message for the encoding.
 
 ```protobuf
-%%% proto.message.PageLayout %%%
+--8<-- "assets/snippets/proto/lance.encodings21.PageLayout.proto"
 ```
 
 ### Repetition and Definition Levels
@@ -250,7 +250,7 @@ blocks as opaque chunks. This means we can use any compression algorithm that we
 #### Protobuf
 
 ```protobuf
-%%% proto.message.MiniBlockLayout %%%
+--8<-- "assets/snippets/proto/lance.encodings21.MiniBlockLayout.proto"
 ```
 
 The protobuf for the mini block layout describes the compression of the various buffers. It also tells us
@@ -321,7 +321,7 @@ packing into 1,2,4, or 8 byte values.
 #### Protobuf
 
 ```protobuf
-%%% proto.message.FullZipLayout %%%
+--8<-- "assets/snippets/proto/lance.encodings21.FullZipLayout.proto"
 ```
 
 The protobuf for the full zip layout describes the compression of the data buffer. It also tells us the
@@ -344,7 +344,7 @@ in the second buffer with a flat layout of 16-bit values. This will likely chang
 #### Protobuf
 
 ```protobuf
-%%% proto.message.ConstantLayout %%%
+--8<-- "assets/snippets/proto/lance.encodings21.ConstantLayout.proto"
 ```
 
 All we need to know is the meaning of each rep/def level and (when present) the inline scalar value bytes.
@@ -368,7 +368,7 @@ This layout has no buffers of its own and merely wraps an inner layout.
 #### Protobuf
 
 ```protobuf
-%%% proto.message.BlobLayout %%%
+--8<-- "assets/snippets/proto/lance.encodings21.BlobLayout.proto"
 ```
 
 Since we smuggle the validity into the descriptions we don't need to store it in the inner layout and so the

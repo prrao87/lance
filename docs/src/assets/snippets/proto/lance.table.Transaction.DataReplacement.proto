@@ -1,0 +1,3 @@
+message DataReplacement {
+    repeated DataReplacementGroup replacements = 1;
+  }

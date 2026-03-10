@@ -14,7 +14,7 @@ the index can store 256K leaves of size 4K each, requiring only a few MiB of mem
 ## Index Details
 
 ```protobuf
-%%% proto.message.BTreeIndexDetails %%%
+--8<-- "assets/snippets/proto/lance.table.BTreeIndexDetails.proto"
 ```
 
 ## Storage Layout

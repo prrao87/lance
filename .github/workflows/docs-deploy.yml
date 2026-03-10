@@ -43,12 +43,7 @@ jobs:
 
       - name: Build docs
         working-directory: docs
-        run: |
-          set -euo pipefail
-          python3 tools/render_proto_macros.py --input src --output .generated/src
-          mkdir -p .generated
-          sed 's|docs_dir = "src"|docs_dir = ".generated/src"|' zensical.toml > .generated/zensical.toml
-          uv run zensical build -f .generated/zensical.toml
+        run: uv run zensical build --clean
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

@@ -7,7 +7,7 @@ applying ASCII folding and lowercasing.
 ## Index Details
 
 ```protobuf
-%%% proto.message.NGramIndexDetails %%%
+--8<-- "assets/snippets/proto/lance.table.NGramIndexDetails.proto"
 ```
 
 ## Storage Layout

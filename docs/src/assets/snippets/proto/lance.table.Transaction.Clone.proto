@@ -1,0 +1,21 @@
+message Clone {
+    // - true:  Performs a metadata-only clone (copies manifest without data files).
+    //          The cloned dataset references original data through `base_paths`,
+    //          suitable for experimental scenarios or rapid metadata migration.
+    // - false: Performs a full deep clone using the underlying object storage's native
+    //          copy API (e.g., S3 CopyObject, GCS rewrite). This leverages server-side
+    //          bulk copy operations to bypass download/upload bottlenecks, achieving
+    //          near-linear speedup for large datasets (typically 3-10x faster than
+    //          manual file transfers). The operation maintains atomicity and data
+    //          integrity guarantees provided by the storage backend.
+    bool is_shallow = 1;
+    // the reference name in the source dataset
+    // in most cases it should be the branch or tag name in the source dataset
+    optional string ref_name = 2;
+    // the version of the source dataset for cloning
+    uint64 ref_version = 3;
+    // the absolute base path of the source dataset for cloning
+    string ref_path = 4;
+    // if the target dataset is a branch, this is the branch name of the target dataset
+    optional string branch_name = 5;
+  }

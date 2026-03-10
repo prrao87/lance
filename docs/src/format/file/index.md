@@ -149,5 +149,5 @@ A detailed description of the file layout follows:
 The protobuf messages for the column metadata are as follows:
 
 ```protobuf
-%%% proto.message.ColumnMetadata %%%
+--8<-- "assets/snippets/proto/lance.file.v2.ColumnMetadata.proto"
 ```

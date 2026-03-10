@@ -6,7 +6,7 @@ providing extremely fast query performance for low-cardinality columns.
 ## Index Details
 
 ```protobuf
-%%% proto.message.BitmapIndexDetails %%%
+--8<-- "assets/snippets/proto/lance.table.BitmapIndexDetails.proto"
 ```
 
 ## Storage Layout

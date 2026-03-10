@@ -264,7 +264,7 @@ The schema is serialized using protobuf messages. Key messages include:
 ### Field Message
 
 ```protobuf
-%%% proto.message.lance.file.Field %%%
+--8<-- "assets/snippets/proto/lance.file.Field.proto"
 ```
 
 The Field message contains:

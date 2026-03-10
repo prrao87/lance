@@ -13,7 +13,13 @@ uv sync --all-extras
 Then build and start the docs server:
 
 ```bash
-make serve
+uv run zensical serve
+```
+
+If you modify protobuf definitions used in spec pages, regenerate snippets:
+
+```bash
+python3 tools/sync_proto_snippets.py
 ```
 
 ### Python Generated Doc

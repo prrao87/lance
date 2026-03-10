@@ -6,7 +6,7 @@ They provide efficient set-based queries on multi-value columns using an underly
 ## Index Details
 
 ```protobuf
-%%% proto.message.LabelListIndexDetails %%%
+--8<-- "assets/snippets/proto/lance.table.LabelListIndexDetails.proto"
 ```
 
 ## Storage Layout

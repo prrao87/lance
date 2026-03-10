@@ -1,0 +1,20 @@
+message Tensor {
+  enum DataType {
+    BFLOAT16 = 0;
+    FLOAT16 = 1;
+    FLOAT32 = 2;
+    FLOAT64 = 3;
+    UINT8 = 4;
+    UINT16 = 5;
+    UINT32 = 6;
+    UINT64 = 7;
+  }
+
+  DataType data_type = 1;
+
+  // Data shape, [dim1, dim2, ...]
+  repeated uint32 shape = 2;
+
+  // Data buffer
+  bytes data = 3;
+}

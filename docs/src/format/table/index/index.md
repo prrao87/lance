@@ -162,9 +162,9 @@ The `IndexMetadata` message contains important information about the index segme
 There are both part of the `table.proto` file in the Lance source code.
 
 ```protobuf
-%%% proto.message.IndexSection %%%
+--8<-- "assets/snippets/proto/lance.table.IndexSection.proto"
 
-%%% proto.message.IndexMetadata %%%
+--8<-- "assets/snippets/proto/lance.table.IndexMetadata.proto"
 ```
 
 </details>

@@ -1,0 +1,8 @@
+message BlobLayout {
+  // The inner layout used to store the descriptions
+  PageLayout inner_layout = 1;
+  // The meaning of each repdef layer, used to interpret repdef buffers correctly
+  //
+  // The inner layout's repdef layers will always be 1 all valid item layer
+  repeated RepDefLayer layers = 2;
+}

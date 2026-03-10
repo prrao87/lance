@@ -1,0 +1,16 @@
+message UpdateConfig {
+    UpdateMap config_updates = 6;
+    UpdateMap table_metadata_updates = 7;
+    UpdateMap schema_metadata_updates = 8;
+    map<int32, UpdateMap> field_metadata_updates = 9;
+
+    // Deprecated -------------------------------
+    map<string, string> upsert_values = 1;
+    repeated string delete_keys = 2;
+    map<string, string> schema_metadata = 3;
+    map<uint32, FieldMetadataUpdate> field_metadata = 4;
+
+    message FieldMetadataUpdate {
+      map<string, string> metadata = 5;
+    }
+  }

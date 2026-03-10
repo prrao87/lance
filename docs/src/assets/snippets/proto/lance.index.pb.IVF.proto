@@ -1,0 +1,18 @@
+message IVF {
+  // Centroids of partitions. `dimension * num_partitions` of float32s.
+  //
+  // Deprecated, use centroids_tensor instead.
+  repeated float centroids = 1;  // [deprecated = true];
+
+  // File offset of each partition.
+  repeated uint64 offsets = 2;
+
+  // Number of records in the partition.
+  repeated uint32 lengths = 3;
+
+  // Tensor of centroids. `num_partitions * dimension` of float32s.
+  Tensor centroids_tensor = 4;
+
+  // KMeans loss.
+  optional double loss = 5;
+}

@@ -186,7 +186,7 @@ The manifest is serialized as a protobuf binary file using the `RegionManifest` 
 <summary>RegionManifest protobuf message</summary>
 
 ```protobuf
-%%% mem_wal.message.RegionManifest %%%
+--8<-- "assets/snippets/proto/lance.table.RegionManifest.proto"
 ```
 
 </details>
@@ -251,7 +251,7 @@ When `num_regions` is 0, the `inline_snapshots` field may be `None` or an empty 
 <summary>MemWalIndexDetails protobuf message</summary>
 
 ```protobuf
-%%% mem_wal.message.MemWalIndexDetails %%%
+--8<-- "assets/snippets/proto/lance.table.MemWalIndexDetails.proto"
 ```
 
 </details>

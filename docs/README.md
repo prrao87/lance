@@ -15,15 +15,14 @@ This directory contains the documentation for Lance, built with Zensical.
 
 ### Building Documentation
 
-Use Zensical’s official commands (`build`, `serve`) with a required protobuf pre-render step.
+Use Zensical’s official commands (`build`, `serve`).
 
 To build and preview locally:
 
 ```bash
 UV_CACHE_DIR=.uv-cache uv sync --all-extras
-python3 tools/render_proto_macros.py --input src --output .generated/src
-uv run zensical build --clean -f zensical.toml
-uv run zensical serve -f zensical.toml -a localhost:8000
+uv run zensical build --clean
+uv run zensical serve
 ```
 
 The documentation will be available at http://localhost:8000
@@ -31,13 +30,18 @@ The documentation will be available at http://localhost:8000
 ### Building for Production
 
 ```bash
-python3 tools/render_proto_macros.py --input src --output .generated/src
-uv run zensical build --clean -f zensical.toml
+uv run zensical build --clean
 ```
 
 This will create a `site/` directory with the built documentation.
 
 If you prefer convenience wrappers, `make serve` and `make build` run the same sequence.
+
+When protobuf definitions change, refresh snippet includes:
+
+```bash
+python3 tools/sync_proto_snippets.py
+```
 
 To run the current Zensical-only validation pass:
 
@@ -100,6 +104,6 @@ uv sync --upgrade
 ## Project Structure
 
 - `src/` - Source markdown files for documentation
-- `tools/render_proto_macros.py` - Pre-renders protobuf macros into generated markdown
+- `tools/sync_proto_snippets.py` - Regenerates protobuf snippet files and updates markdown include markers
 - `zensical.toml` - Zensical configuration
 - `pyproject.toml` - Python project configuration (uv compatible)

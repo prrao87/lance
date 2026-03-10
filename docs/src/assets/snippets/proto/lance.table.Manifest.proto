@@ -1,0 +1,173 @@
+message Manifest {
+  // All fields of the dataset, including the nested fields.
+  repeated lance.file.Field fields = 1;
+
+  // Schema metadata.
+  map<string, bytes> schema_metadata = 5;
+
+  // Fragments of the dataset.
+  repeated DataFragment fragments = 2;
+
+  // Snapshot version number.
+  uint64 version = 3;
+
+  // The file position of the version auxiliary data.
+  //  * It is not inheritable between versions.
+  //  * It is not loaded by default during query.
+  uint64 version_aux_data = 4;
+
+  message WriterVersion {
+    // The name of the library that created this file.
+    string library = 1;
+    // The version of the library that created this file. Because we cannot assume
+    // that the library is semantically versioned, this is a string. However, if it
+    // is semantically versioned, it should be a valid semver string without any 'v'
+    // prefix. For example: `2.0.0`, `2.0.0-rc.1`.
+    //
+    // For forward compatibility with older readers, when writing new manifests this
+    // field should contain only the core version (major.minor.patch) without any
+    // prerelease or build metadata. The prerelease/build info should be stored in
+    // the separate prerelease and build_metadata fields instead.
+    string version = 2;
+    // Optional semver prerelease identifier.
+    //
+    // This field stores the prerelease portion of a semantic version separately
+    // from the core version number. For example, if the full version is "2.0.0-rc.1",
+    // the version field would contain "2.0.0" and prerelease would contain "rc.1".
+    //
+    // This separation ensures forward compatibility: older readers can parse the
+    // clean version field without errors, while newer readers can reconstruct the
+    // full semantic version by combining version, prerelease, and build_metadata.
+    //
+    // If absent, the version field is used as-is.
+    optional string prerelease = 3;
+    // Optional semver build metadata.
+    //
+    // This field stores the build metadata portion of a semantic version separately
+    // from the core version number. For example, if the full version is
+    // "2.0.0-rc.1+build.123", the version field would contain "2.0.0", prerelease
+    // would contain "rc.1", and build_metadata would contain "build.123".
+    //
+    // If absent, no build metadata is present.
+    optional string build_metadata = 4;
+  }
+
+  // The version of the writer that created this file.
+  //
+  // This information may be used to detect whether the file may have known bugs
+  // associated with that writer.
+  WriterVersion writer_version = 13;
+
+  // If present, the file position of the index metadata.
+  optional uint64 index_section = 6;
+
+  // Version creation Timestamp, UTC timezone
+  google.protobuf.Timestamp timestamp = 7;
+
+  // Optional version tag
+  string tag = 8;
+
+  // Feature flags for readers.
+  //
+  // A bitmap of flags that indicate which features are required to be able to
+  // read the table. If a reader does not recognize a flag that is set, it
+  // should not attempt to read the dataset.
+  //
+  // Known flags:
+  // * 1: deletion files are present
+  // * 2: row ids are stable and stored as part of the fragment metadata.
+  // * 4: use v2 format (deprecated)
+  // * 8: table config is present
+  uint64 reader_feature_flags = 9;
+
+  // Feature flags for writers.
+  //
+  // A bitmap of flags that indicate which features must be used when writing to the
+  // dataset. If a writer does not recognize a flag that is set, it should not attempt to
+  // write to the dataset.
+  //
+  // The flag identities are the same as for reader_feature_flags, but the values of
+  // reader_feature_flags and writer_feature_flags are not required to be identical.
+  uint64 writer_feature_flags = 10;
+
+  // The highest fragment ID that has been used so far.
+  //
+  // This ID is not guaranteed to be present in the current version, but it may
+  // have been used in previous versions.
+  //
+  // For a single fragment, will be zero. For no fragments, will be absent.
+  optional uint32 max_fragment_id = 11;
+
+  // Path to the transaction file, relative to `{root}/_transactions`. The file at that
+  // location contains a wire-format serialized Transaction message representing the
+  // transaction that created this version.
+  //
+  // This string field "transaction_file" may be empty if no transaction file was written.
+  //
+  // The path format is "{read_version}-{uuid}.txn" where {read_version} is the version of
+  // the table the transaction read from (serialized to decimal with no padding digits),
+  // and {uuid} is a hyphen-separated UUID.
+  string transaction_file = 12;
+
+  // The file position of the transaction content. None if transaction is empty
+  // This transaction content begins with the transaction content length as u32
+  // If the transaction proto message has a length of `len`, the message ends at `len` + 4
+  optional uint64 transaction_section = 21;
+
+  // The next unused row id. If zero, then the table does not have any rows.
+  //
+  // This is only used if the "stable_row_ids" feature flag is set.
+  uint64 next_row_id = 14;
+
+  message DataStorageFormat {
+    // The format of the data files (e.g. "lance")
+    string file_format = 1;
+    // The max format version of the data files. The format of the version can vary by
+    // file_format and is not required to follow semver.
+    //
+    // Every file in this version of the dataset has the same file_format version.
+    string version = 2;
+  }
+
+  // The data storage format
+  //
+  // This specifies what format is used to store the data files.
+  DataStorageFormat data_format = 15;
+
+  // Table config.
+  //
+  // Keys with the prefix "lance." are reserved for the Lance library. Other
+  // libraries may wish to similarly prefix their configuration keys
+  // appropriately.
+  map<string, string> config = 16;
+
+  // Metadata associated with the table.
+  //
+  // This is a key-value map that can be used to store arbitrary metadata
+  // associated with the table.
+  //
+  // This is different than configuration, which is used to tell libraries how
+  // to read, write, or manage the table.
+  //
+  // This is different than schema metadata, which is used to describe the
+  // data itself and is attached to the output schema of scans.
+  map<string, string> table_metadata = 19;
+
+  // Field number 17 (`blob_dataset_version`) was used for a secondary blob dataset.
+  reserved 17;
+  reserved "blob_dataset_version";
+
+  // The base paths of data files.
+  //
+  // This is used to determine the base path of a data file. In common cases data file paths are under current dataset base path.
+  // But for shallow cloning, importing file and other multi-tier storage cases, the actual data files could be outside of the current dataset.
+  // This field is used with the `base_id` in `lance.file.File` and `lance.file.DeletionFile`.
+  //
+  // For example, if we have a dataset with base path `s3://bucket/dataset`, we have a DataFile with base_id 0, we get the actual data file path by:
+  // base_paths[id = 0] + /data/ + file.path
+  // the key(a.k.a index) starts from 0, increased by 1 for each new base path.
+  repeated BasePath base_paths = 18;
+
+  // The branch of the dataset. None means main branch.
+  optional string branch = 20;
+}

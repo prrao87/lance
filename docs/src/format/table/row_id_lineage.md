@@ -103,7 +103,7 @@ The sequence is partitioned into segments, each encoded optimally based on the d
 <summary>RowIdSequence protobuf message</summary>
 
 ```protobuf
-%%% proto.message.RowIdSequence %%%
+--8<-- "assets/snippets/proto/lance.table.RowIdSequence.proto"
 ```
 
 </details>
@@ -122,7 +122,7 @@ Used for new fragments where row IDs are assigned sequentially.
 <summary>Range protobuf message</summary>
 
 ```protobuf
-%%% proto.message.Range %%%
+--8<-- "assets/snippets/proto/lance.table.U64Segment.Range.proto"
 ```
 
 </details>
@@ -137,7 +137,7 @@ Used for fragments with sparse deletions where maintaining the range is efficien
 <summary>RangeWithHoles protobuf message</summary>
 
 ```protobuf
-%%% proto.message.RangeWithHoles %%%
+--8<-- "assets/snippets/proto/lance.table.U64Segment.RangeWithHoles.proto"
 ```
 
 </details>
@@ -152,7 +152,7 @@ Used for fragments with dense deletion patterns.
 <summary>RangeWithBitmap protobuf message</summary>
 
 ```protobuf
-%%% proto.message.RangeWithBitmap %%%
+--8<-- "assets/snippets/proto/lance.table.U64Segment.RangeWithBitmap.proto"
 ```
 
 </details>
@@ -176,7 +176,7 @@ The implementation selects the most compact encoding based on the value range, c
 <summary>EncodedU64Array protobuf message</summary>
 
 ```protobuf
-%%% proto.message.EncodedU64Array %%%
+--8<-- "assets/snippets/proto/lance.table.EncodedU64Array.proto"
 ```
 
 </details>
@@ -292,7 +292,7 @@ message DataFragment {
 <summary>RowDatasetVersionSequence protobuf messages</summary>
 
 ```protobuf
-%%% proto.message.RowDatasetVersionSequence %%%
+--8<-- "assets/snippets/proto/lance.table.RowDatasetVersionSequence.proto"
 ```
 
 </details>

@@ -7,7 +7,7 @@ It's an inexact filter - they may include false positives but never false negati
 ## Index Details
 
 ```protobuf
-%%% proto.message.BloomFilterIndexDetails %%%
+--8<-- "assets/snippets/proto/lance.index.pb.BloomFilterIndexDetails.proto"
 ```
 
 ## Storage Layout

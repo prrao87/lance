@@ -1,0 +1,34 @@
+message RegionManifest {
+  // Region identifier (UUID v4).
+  UUID region_id = 11;
+
+  // Manifest version number.
+  // Matches the version encoded in the filename.
+  uint64 version = 1;
+
+  // Region spec ID this region was created with.
+  // Set at region creation and immutable thereafter.
+  // A value of 0 indicates a manually-created region not governed by any spec.
+  uint32 region_spec_id = 10;
+
+  // Writer fencing token - monotonically increasing.
+  // A writer must increment this when claiming the region.
+  uint64 writer_epoch = 2;
+
+  // The most recent WAL entry position (0-based) that has been flushed to a MemTable.
+  // During recovery, replay starts from replay_after_wal_entry_position + 1.
+  uint64 replay_after_wal_entry_position = 3;
+
+  // The most recent WAL entry position (0-based) at the time manifest was updated.
+  // This is a hint, not authoritative - recovery must list files to find actual state.
+  uint64 wal_entry_position_last_seen = 4;
+
+  // Next generation ID to create (incremented after each MemTable flush).
+  uint64 current_generation = 6;
+
+  // Field 7 removed: merged_generation moved to MemWalIndexDetails.merged_generations
+  // which is the authoritative source for merge progress.
+
+  // List of flushed MemTable generations and their directory paths.
+  repeated FlushedGeneration flushed_generations = 8;
+}

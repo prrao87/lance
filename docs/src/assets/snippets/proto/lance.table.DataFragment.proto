@@ -1,0 +1,42 @@
+message DataFragment {
+  // The ID of a DataFragment is unique within a dataset.
+  uint64 id = 1;
+
+  repeated DataFile files = 2;
+
+  // File that indicates which rows, if any, should be considered deleted.
+  DeletionFile deletion_file = 3;
+
+  // TODO: What's the simplest way we can allow an inline tombstone bitmap?
+
+  // A serialized RowIdSequence message (see rowids.proto).
+  //
+  // These are the row ids for the fragment, in order of the rows as they appear.
+  // That is, if a fragment has 3 rows, and the row ids are [1, 42, 3], then the
+  // first row is row 1, the second row is row 42, and the third row is row 3.
+  oneof row_id_sequence {
+    // If small (< 200KB), the row ids are stored inline.
+    bytes inline_row_ids = 5;
+    // Otherwise, stored as part of a file.
+    ExternalFile external_row_ids = 6;
+  } // row_id_sequence
+
+  oneof last_updated_at_version_sequence {
+    // If small (< 200KB), the row latest updated versions are stored inline.
+    bytes inline_last_updated_at_versions = 7;
+    // Otherwise, stored as part of a file.
+    ExternalFile external_last_updated_at_versions = 8;
+  } // last_updated_at_version_sequence
+
+  oneof created_at_version_sequence {
+    // If small (< 200KB), the row created at versions are stored inline.
+    bytes inline_created_at_versions = 9;
+    // Otherwise, stored as part of a file.
+    ExternalFile external_created_at_versions = 10;
+  } // created_at_version_sequence
+
+  // Number of original rows in the fragment, this includes rows that are now marked with
+  // deletion tombstones. To compute the current number of rows, subtract
+  // `deletion_file.num_deleted_rows` from this value.
+  uint64 physical_rows = 4;
+}

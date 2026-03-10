@@ -18,7 +18,7 @@ a monotonically increasing version number, and an optional reference to the inde
 <summary>Manifest protobuf message</summary>
 
 ```protobuf
-%%% proto.message.Manifest %%%
+--8<-- "assets/snippets/proto/lance.table.Manifest.proto"
 ```
 
 </details>
@@ -40,7 +40,7 @@ see the [Schema Format Specification](schema.md).
 <summary>Field protobuf message</summary>
 
 ```protobuf
-%%% proto.message.lance.file.Field %%%
+--8<-- "assets/snippets/proto/lance.file.Field.proto"
 ```
 
 </details>
@@ -85,7 +85,7 @@ Column subsets can be read without accessing all data files, and each data file 
 <summary>DataFragment protobuf message</summary>
 
 ```protobuf
-%%% proto.message.DataFragment %%%
+--8<-- "assets/snippets/proto/lance.table.DataFragment.proto"
 ```
 
 </details>
@@ -116,7 +116,7 @@ or independently of column indices due to variable encoding widths (for Lance fi
 <summary>DataFile protobuf message</summary>
 
 ```protobuf
-%%% proto.message.DataFile %%%
+--8<-- "assets/snippets/proto/lance.table.DataFile.proto"
 ```
 
 </details>
@@ -138,7 +138,7 @@ However, this invalidates row addresses and requires rebuilding indices, which c
 <summary>DeletionFile protobuf message</summary>
 
 ```protobuf
-%%% proto.message.DeletionFile %%%
+--8<-- "assets/snippets/proto/lance.table.DeletionFile.proto"
 ```
 
 </details>
